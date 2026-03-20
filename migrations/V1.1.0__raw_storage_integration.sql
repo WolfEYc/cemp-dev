@@ -1,0 +1,6 @@
+CREATE OR REPLACE STORAGE INTEGRATION cemp_raw_s3_integration
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = S3
+  ENABLED = TRUE
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::739605955065:role/snowflake-storage-role'
+  STORAGE_ALLOWED_LOCATIONS = ('s3://cemp-raw/');
