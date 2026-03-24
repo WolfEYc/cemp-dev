@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "cemp_raw" {
 }
 
 resource "aws_s3_bucket" "iceberg" {
-  bucket = "iceberg"
+  bucket = "iceberg-bucket"
 }
 
 resource "aws_s3_bucket_versioning" "iceberg" {
