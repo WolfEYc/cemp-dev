@@ -24,6 +24,80 @@ resource "aws_s3_bucket" "cemp_raw" {
   bucket = "cemp-raw"
 }
 
+resource "aws_s3_bucket" "iceberg" {
+  bucket = "iceberg"
+}
+
+resource "aws_s3_bucket_versioning" "iceberg" {
+  bucket = aws_s3_bucket.iceberg.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_glue_catalog_database" "iceberg" {
+  name = "iceberg"
+}
+
+resource "aws_iam_role" "glue_job_role" {
+  name = "glue-iceberg-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "glue.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "glue_policy" {
+  name = "glue-iceberg-policy"
+  role = aws_iam_role.glue_job_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      # S3 access
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ]
+        Resource = "${aws_s3_bucket.iceberg.arn}/*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["s3:ListBucket"]
+        Resource = aws_s3_bucket.iceberg.arn
+      },
+
+      # Glue catalog access
+      {
+        Effect = "Allow"
+        Action = [
+          "glue:GetDatabase",
+          "glue:GetTable",
+          "glue:CreateTable",
+          "glue:UpdateTable",
+          "glue:GetPartitions"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+output "glue_job_role_arn" {
+  value = aws_iam_role.glue_job_role.arn
+}
+
 resource "aws_sqs_queue" "cemp_raw_snowpipe" {
   name                       = "cemp_raw_snowpipe"
   visibility_timeout_seconds = 300
@@ -41,12 +115,12 @@ resource "aws_sns_topic_policy" "cemp_raw_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid = "AllowS3Publish"
+        Sid    = "AllowS3Publish"
         Effect = "Allow"
         Principal = {
           Service = "s3.amazonaws.com"
         }
-        Action = "SNS:Publish"
+        Action   = "SNS:Publish"
         Resource = aws_sns_topic.cemp_raw_snowpipe.arn
         Condition = {
           ArnLike = {
@@ -126,6 +200,40 @@ resource "aws_iam_role" "snowflake_role" {
         }
       }
     }]
+  })
+}
+
+resource "aws_iam_role_policy" "snowflake_policy" {
+  name = "snowflake-iceberg-policy"
+  role = aws_iam_role.snowflake_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      # S3 read (and optional write)
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.iceberg.arn,
+          "${aws_s3_bucket.iceberg.arn}/*"
+        ]
+      },
+
+      # Glue catalog read
+      {
+        Effect = "Allow"
+        Action = [
+          "glue:GetDatabase",
+          "glue:GetTable",
+          "glue:GetPartitions"
+        ]
+        Resource = "*"
+      }
+    ]
   })
 }
 
