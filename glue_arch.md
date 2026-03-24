@@ -19,13 +19,13 @@
 ## Bronze 
 ### Storage
 - Iceberg (S3)
-- (catalog, domain, medallion, dataset) glue.cemp.bronze.promoter_scores
+- cemp_iceberg_db.bronze.promoter_scores
 - partition by ingest_date
 - in rows + parsed + relationalized / flattened + extracted + normalized
 - likely 0 filtering
 - dupes are totally allowed (and expected) here
 - vendor agnostic
-- table schema example: (vendor, event_id, promoter_score, event_ts, event_date, ingest_ts, ingest_date)
+- table schema example: (vendor, product_id, event_id, score, event_ts, ingest_ts)
 
 ### Compute
 - Glue Spark job

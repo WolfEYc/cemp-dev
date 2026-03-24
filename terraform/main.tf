@@ -37,7 +37,7 @@ resource "aws_s3_bucket_versioning" "iceberg" {
 }
 
 resource "aws_glue_catalog_database" "iceberg" {
-  name = "iceberg-db"
+  name = "cemp_iceberg_db"
 }
 
 resource "aws_iam_role" "glue_job_role" {
