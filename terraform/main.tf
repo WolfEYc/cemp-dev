@@ -122,6 +122,15 @@ resource "aws_sns_topic_policy" "cemp_raw_policy" {
             "aws:SourceArn" = aws_s3_bucket.cemp_raw.arn
           }
         }
+      },
+      {
+        Sid    = "1"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::982911664175:user/j3bk1000-s"
+        }
+        Action   = "SNS:Subscribe"
+        Resource = aws_sns_topic.cemp_raw_snowpipe.arn
       }
     ]
   })
@@ -202,7 +211,7 @@ resource "aws_iam_role_policy" "snowflake_policy" {
       {
         Effect = "Allow",
         Action = [
-          "sns:Subscribe"
+          "SNS:Subscribe"
         ],
         Resource = [
           aws_sns_topic.cemp_raw_snowpipe.arn
