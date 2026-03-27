@@ -1,4 +1,4 @@
-CREATE PIPE khols.raw_promoter_score
+CREATE OR REPLACE PIPE khols.raw_promoter_score
     AUTO_INGEST = TRUE
     AWS_SNS_TOPIC = 'arn:aws:sns:us-east-1:739605955065:cemp_raw_snowpipe'  
 AS
@@ -15,3 +15,4 @@ FROM (
 )
 FILE_FORMAT = (FORMAT_NAME = ndjson)
 ;
+

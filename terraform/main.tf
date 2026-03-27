@@ -202,7 +202,7 @@ resource "aws_iam_role_policy" "snowflake_policy" {
       {
         Effect = "Allow",
         Action = [
-          "SNS:Subscribe"
+          "sns:Subscribe"
         ],
         Resource = [
           aws_sns_topic.cemp_raw_snowpipe.arn
