@@ -219,7 +219,9 @@ resource "aws_iam_role_policy" "snowflake_policy" {
         ]
         Resource = [
           aws_s3_bucket.iceberg.arn,
-          "${aws_s3_bucket.iceberg.arn}/*"
+          "${aws_s3_bucket.iceberg.arn}/*",
+          aws_s3_bucket.cemp_raw.arn,
+          "${aws_s3_bucket.cemp_raw.arn}/*"
         ]
       },
 

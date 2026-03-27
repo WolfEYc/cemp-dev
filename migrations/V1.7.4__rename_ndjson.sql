@@ -1,0 +1,1 @@
+ALTER FILE FORMAT njson RENAME TO ndjson;
