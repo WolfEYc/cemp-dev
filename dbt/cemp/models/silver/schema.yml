@@ -1,0 +1,25 @@
+
+version: 2
+
+models:
+  - name: promoter_score
+    description: "silver promoter score events"
+    columns:
+      - name: vendor
+        description: "the vendor (ie khols) of the credit card survey"
+        data_tests:
+          - not_null
+      - name: event_id
+        description: "the vendor supplied id of the event"
+        data_tests:
+          - unique
+          - not_null
+      - name: event_ts
+        description: "when the user submitted the survey, ideally"
+        data_tests:
+          - not_null
+      - name: score
+        description: "what promoter score the user gave in the survey"
+        data_tests:
+          - not_null
+        
