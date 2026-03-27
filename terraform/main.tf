@@ -139,7 +139,6 @@ resource "aws_s3_bucket_notification" "cemp_raw_notify" {
     # filter_suffix = ".json" # optional
   }
   depends_on = [
-    aws_sns_topic_subscription.cemp_raw_sns_to_sqs,
     aws_sns_topic_policy.cemp_raw_policy
   ]
 }
