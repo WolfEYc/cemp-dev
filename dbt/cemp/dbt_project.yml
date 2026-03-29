@@ -5,6 +5,9 @@
 name: 'cemp'
 version: '1.0.0'
 
+dbt-cloud:
+    project-id: 70471823568946
+
 # This setting configures which "profile" dbt uses for this project.
 profile: 'cemp'
 

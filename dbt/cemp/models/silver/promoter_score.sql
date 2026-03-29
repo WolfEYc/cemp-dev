@@ -1,4 +1,5 @@
 
+
 {{ 
     config(
         materialized='incremental',
@@ -25,3 +26,4 @@ and score is not null
     and ingest_ts >= (select max(ingest_ts) from {{ this }})
 {% endif %}
 qualify row_number() over (partition by event_id order by event_ts desc, ingest_ts desc) = 1
+
