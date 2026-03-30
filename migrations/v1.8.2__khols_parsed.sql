@@ -46,7 +46,7 @@ APPEND_ONLY = TRUE;
 ALTER TABLE bronze.promoter_score ADD COLUMN referral_type STRING;
 ALTER TABLE bronze.promoter_score ADD COLUMN referral_id STRING;
 
-CREATE OR REPLACE VIEW khols.promoter_score_bronze_stream AS
+CREATE OR REPLACE VIEW khols.promoter_score_bronze AS
 SELECT
     pipeline_event_id,
     'khols' AS vendor,
