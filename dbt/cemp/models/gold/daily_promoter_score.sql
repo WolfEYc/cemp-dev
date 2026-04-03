@@ -17,7 +17,7 @@ select
     state,
     referral_type,
     referral_id,
-    (count_if(score >= 9) / count(*)) - (count_if(score <= 6) / count(*)) as nps,
+    (count_if(score >= 9)::float / count(*)) - (count_if(score <= 6)::float / count(*)) as nps,
     count(*) as num_entries
 from {{ ref('promoter_score') }}
 {% if is_incremental() %}
