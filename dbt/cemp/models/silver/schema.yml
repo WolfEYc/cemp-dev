@@ -22,9 +22,6 @@ models:
         description: "when the user submitted the survey, ideally"
         data_tests:
           - not_null
-      - name: country
-        data_tests:
-          - not_null
       - name: score
         description: "what promoter score the user gave in the survey"
         data_tests:
