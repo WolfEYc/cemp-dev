@@ -9,6 +9,10 @@ models:
         description: "the vendor (ie khols) of the credit card survey"
         data_tests:
           - not_null
+      - name: vendor
+        description: "the product_id (ie khols_c1_card) to know which card this is"
+        data_tests:
+          - not_null
       - name: event_id
         description: "the vendor supplied id of the event"
         data_tests:
@@ -18,8 +22,18 @@ models:
         description: "when the user submitted the survey, ideally"
         data_tests:
           - not_null
+      - name: country
+        data_tests:
+          - not_null
       - name: score
         description: "what promoter score the user gave in the survey"
         data_tests:
           - not_null
+      - name: referral_type
+        description: "in-store, friend, online, etc"
+      - name: referral_id
+        description: "identifier (if any) of the referral, ie some url or user_id of friend"
+      
+
+        
         
