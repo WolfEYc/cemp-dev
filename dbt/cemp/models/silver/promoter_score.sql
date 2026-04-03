@@ -29,7 +29,7 @@ and score is not null
 and product_id is not null
 and country is not null
 {% if is_incremental() %}
-    and (ingest_ts > (select max(ingest_ts) from {{ this }}) or (select count(*) from {{ this }}) == 0)
+    and (ingest_ts > (select max(ingest_ts) from {{ this }}) or (select count(*) from {{ this }}) = 0)
 {% endif %}
 qualify row_number() over (partition by event_id order by event_ts desc, ingest_ts desc) = 1
 
