@@ -1,0 +1,12 @@
+
+version: 2
+
+models:
+  - name: daily_promoter_score
+    description: "silver promoter score events"
+    columns:
+      - name: event_date
+        description: "date for the collected surveys"
+      - name: score
+        description: "what promoter score the user gave in the survey"
+      
